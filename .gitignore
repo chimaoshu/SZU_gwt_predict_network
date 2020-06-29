@@ -1,2 +1,6 @@
 # vscode
 .vscode/
+
+ReloadPythonModule.m
+Train copy.m
+ReNewWeights copy.m

@@ -1,8 +1,10 @@
-function [W1,W2] = MultiClass(W1,W2,X,D)
+function [W1,W2] = ReNewWeights(W1,W2,X,D)
     
-    alpha = 0.9;
+    alpha = 0.5;
     
-    N = 5;
+    i = size(D);
+    i = i(1,1);
+    
     for k=1:N
         
         % 5x5 matrix to 25x1 matrix
@@ -36,8 +38,8 @@ function [W1,W2] = MultiClass(W1,W2,X,D)
         %计算loss，这里采用直接相减
         % 这里e就是目标函数（误差）
         % 后面要做的事就是让e下降
-        e = d-y2;
-        delta1 = e;
+        
+        delta1 = d-y2;
         
         % e1等于误差乘以W2的转置
         % （前面正向传播是乘以W2，这里反向传播就是乘以W2的转置变回去）
