@@ -1,43 +1,30 @@
-function [W1,W2] = ReNewWeights(W1,W2,X,D)
+function [W1,W2] = ReNewWeights(W1,W2,W3,X,D)
     
-    alpha = 0.5;
+    alpha = 0.3;
     
-    i = size(D);
-    i = i(1,1);
+    % 数据长度
+    training_data_lenth = size(D);
+    training_data_lenth = training_data_lenth(1,1);
     
-    for k=1:N
+    for i = 1:training_data_lenth
         
-        % 5x5 matrix to 25x1 matrix
-        x = reshape(X(:,:,k),25,1);
+        % 第i行,转置得到列向量
+        x = X(i,:)';
+
+        % 第i行
+        d = D(i,:);
         
-        % get vector and transform，d是正确值
-        %D(k,:)的意思是让矩阵第k行的元素等于向量d的元素
-        % 然后转置为一列向量
-        d = D(k,:)';
-        
-        % 第一层线性组合
-        % W1是一个50行25列的矩阵
-        % x是25维的列向量
-        % v1是50维的列向量
-        % 这里相乘是矩阵的外积，结果仍为矩阵
-        % W1的第一行（一个25维的行向量）乘以输入的X（25维列向量）
-        % 得到第二个网络层的第一个神经元
-        % W1的第一行就是输出的25个神经元对第二层的第一个神经元的25个权重
+        % 正向传播 1-->2
         v1 = W1 * x;
-        % 第一层输出v1（一整个列向量）
-        y1 = Sigmoid(v1);
+        y1 = ReLU(v1);
         
-        % 隐藏层
+        % 正向传播 2-->3
         v2 = W2 * y1;
-        y2 = Sigmoid(v2);
-        
-        % x是输入，y1是中间隐藏层，y2是最终的输出
-        % 前向传递end
-        % 接下来是后向传递
-        
-        %计算loss，这里采用直接相减
-        % 这里e就是目标函数（误差）
-        % 后面要做的事就是让e下降
+        y2 = ReLU(v2);
+
+        % 正向传播 3-->4
+        v3 = W3 * y2;
+        y3 = ReLU(v3);
         
         delta1 = d-y2;
         
