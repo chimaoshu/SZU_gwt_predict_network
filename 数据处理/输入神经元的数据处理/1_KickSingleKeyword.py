@@ -4,7 +4,7 @@
 
 import json
 # 读取数据
-with open('数据处理\\输入神经元与初始权重\\1_word_weights.json', 'r', encoding='utf-8') as f:
+with open('数据处理\\输入神经元的数据处理\\1_word_weights.json', 'r', encoding='utf-8') as f:
     _data = json.loads(f.read())
 
 new_data_list_len = 0
@@ -17,5 +17,5 @@ for keyword in _data.keys():
     new_data_list[keyword] = _data[keyword]
 
 # 写入数据
-with open('数据处理\\输入神经元与初始权重\\2_word_weights.json', 'a+', encoding='utf-8') as f:
+with open('数据处理\\输入神经元的数据处理\\2_word_weights.json', 'a+', encoding='utf-8') as f:
     f.write(json.dumps(new_data_list, ensure_ascii=False))

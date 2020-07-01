@@ -1,14 +1,15 @@
 """
 这个脚本的目的对训练数据进行处理和压缩
+生成最后的 4_compressed_training_data.json ，用于训练的数据
 """
 
 import json
 
 # 读取数据
-with open('数据处理\\训练数据\\1_training_data.json', 'r', encoding='utf-8') as f:
+with open('数据处理\\训练数据获取与处理\\3_training_data.json', 'r', encoding='utf-8') as f:
     training_data_dict = json.loads(f.read())
 
-with open('数据处理\\输入神经元与初始权重\\6_final_keyword_and_order.json', 'r', encoding='utf-8') as f:
+with open('数据处理\\处理到最后投入使用的数据\\输入神经元与序号.json', 'r', encoding='utf-8') as f:
     keyword_and_order_dict = json.loads(f.read())
 
 new_data_list = []
@@ -16,7 +17,11 @@ new_data_list = []
 for i in training_data_dict.keys():
 
     # 点击量过小的数据剔除掉
-    if training_data_dict[i]['click_times'] <= 20:
+    if training_data_dict[i]['click_times'] <= 118:
+        continue
+
+    # 点击量过大也扔掉
+    if training_data_dict[i]['click_times'] >= 718:
         continue
 
     # 获取关键词列表
@@ -46,5 +51,5 @@ for i in training_data_dict.keys():
             new_data_list.append(training_datum_set)
 
 # 写入数据
-with open('数据处理\\训练数据\\2_compressed_training_data.json', 'a+', encoding='utf-8') as f:
+with open('数据处理\\训练数据\\4_compressed_training_data.json', 'a+', encoding='utf-8') as f:
     f.write(json.dumps(new_data_list, ensure_ascii=False))

@@ -141,16 +141,21 @@ def get_data(year):
     """
     print(year,'年')
 
-    with open('数据处理\\训练数据\\training_data_1.json', 'r', encoding='utf-8') as f:
+    with open('数据处理\\训练数据获取与处理\\3_training_data.json', 'r', encoding='utf-8') as f:
         data_list = json.loads(f.read())
+
+    if year == 2020:
+        keyword = ''
+    else:
+        keyword = '通知'
 
     respond_list = requests.post(
         url='https://www1.szu.edu.cn/board/infolist.asp?',
         headers={
             'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:33.0) Gecko/20120101 Firefox/33.0'},
-        proxies={'http': 'localhost:10809','https': 'localhost:10809'},
+        proxies={},
         data={'dayy': str(year), 'from_username': '',
-              'keyword': '通知'.encode('gbk'), 'searchb1': '%CB%D1%CB%F7'}
+              'keyword': keyword.encode('gbk'), 'searchb1': '%CB%D1%CB%F7'}
     )
 
     respond_list.encoding = 'gbk'
@@ -192,7 +197,7 @@ def get_data(year):
         except:
             print('出错，跳过')
 
-    with open('数据处理\\训练数据\\1_training_data.json', 'r+', encoding='utf-8') as f:
+    with open('数据处理\\训练数据获取与处理\\3_training_data.json', 'r+', encoding='utf-8') as f:
         f.seek(0, 0)
         f.truncate()
         f.write(
@@ -205,6 +210,9 @@ def get_data(year):
 
 
 if __name__ == "__main__":
+    """
+    这个爬虫的目的是从学校的官网爬取公文标题和对应的点击量
+    """
 
-    for i in [2014,2015,2016,2017,2018,2019,2020]:
-        get_data(i)
+    get_data(2019)
+    get_data(2020)

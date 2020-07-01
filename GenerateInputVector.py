@@ -62,7 +62,7 @@ class getAPI():
         # 去掉特殊字符
         text = text.replace(' ', '').replace('~', '')
 
-        print('输入内容：' + text)
+        # print('输入内容：' + text)
 
         # 由于使用的是免费的api接口，需要保证一定的访问时间差，采用这种方法保证时间间隔
         while True:
@@ -143,11 +143,12 @@ def Generate(title):
     # 调用腾讯云api将标题中的关键词分割出来
     title_keyword_list = getAPI.get_content(title)
 
-    with open('数据处理\\输入神经元与初始权重\\6_final_keyword_and_order.json','r',encoding='utf-8') as f:
+    with open('数据处理\\处理到最后投入使用的数据\\输入神经元与序号.json','r',encoding='utf-8') as f:
         keyword_and_order_dict = json.loads(f.read())
 
     input_vector = []
 
+    print('分词结果:',title_keyword_list)
     for keyword in title_keyword_list:
 
         if keyword_and_order_dict.__contains__(keyword):
@@ -159,10 +160,9 @@ def Generate(title):
 
 if __name__ == "__main__":
     """
-    函数是投入使用时matlab调用的，
+    函数是test时MATLAB调用的，
     在训练中无需使用到。
     """
-    input_vector = Generate(input('测试，输出标题：'))
-    print(len(input_vector))
+    input_vector = Generate(input('测试，输入标题：'))
     print(input_vector)
     
