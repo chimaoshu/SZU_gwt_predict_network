@@ -1,13 +1,5 @@
-% 这里直接在MATLAB中调用Python函数
-% Python函数将公文标题传给腾讯云分词AI的api接口得到分割后的词语
-% 然后剔除无意义的词，留下有意义的词后传给MATLAB
-cell_list = cell(py.GenerateInputVector.Generate(input('输入要预测的公文标题：','s')));
-
-% 根据官方文档的示例，将Python的list对象转化为Matlab中的向量
-vector = zeros(1, numel(cell_list));
-for n = 1:numel(cell_list)
-    vector(1,n) = double(cell_list{n});
-end
+% 这个脚本是在MATLAB版本较低而无法直接调用Python的情况使用的
+vector = input('输入Python脚本返回的向量：');
 
 % 下面的代码是将上述数据转化为输入神经网络的向量
 input_layer_size = 1534;

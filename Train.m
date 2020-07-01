@@ -54,7 +54,11 @@ init_alpha = 0.001;
 for epoch = 1:training_times  
 
     % 用来存储损失loss，方便可视化分析训练情况
-    cost_trend = gpuArray([]);
+    cost_trend = [];
+
+    % 如果电脑里面没有NVIDIA的CUDA或者MATLAB的parallel computing toolbox
+    % 注释下面这行代码即可
+    % cost_trend = gpuArray(cost_trend);
     
     % 每次训练学习率减少，防止梯度爆炸
     alpha = init_alpha * 0.5^(epoch-1);

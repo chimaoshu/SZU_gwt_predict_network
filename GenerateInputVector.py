@@ -148,7 +148,7 @@ def Generate(title):
 
     input_vector = []
 
-    print('分词结果:',title_keyword_list)
+    print('\n分词结果:',title_keyword_list,'\n\n')
     for keyword in title_keyword_list:
 
         if keyword_and_order_dict.__contains__(keyword):
@@ -160,9 +160,10 @@ def Generate(title):
 
 if __name__ == "__main__":
     """
-    函数是test时MATLAB调用的，
-    在训练中无需使用到。
+    上面函数是test时MATLAB调用的，
+    在训练中无需使用到
+    当MATLAB版本过低无法直接调用Python时，需要运行main函数
     """
-    input_vector = Generate(input('测试，输入标题：'))
-    print(input_vector)
+    input_vector = Generate(input('输入要预测的公文标题：'))
+    print('请运行Test2.m，然后把下列的输出复制后输入Test2.m(连同中括号一起复制)\n\n',input_vector,'\n')
     

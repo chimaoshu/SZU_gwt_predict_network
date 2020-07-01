@@ -5,10 +5,12 @@ function [W1, W2, cost_trend] = ReNewWeights(W1, W2, X, D, cost_trend, alpha)
     training_data_lenth = length(D);
 
     % 转化为GPU数组进行并行计算，并且转化为单精度以提高GPU计算的优先性
-    W1 = gpuArray(single(W1));
-    W2 = gpuArray(single(W2));
-    X  = gpuArray(single(X));
-    D  = gpuArray(single(D));
+    % 如果电脑里面没有NVIDIA的CUDA或者MATLAB的parallel computing toolbox
+    % 注释下面这四行代码即可
+    % W1 = gpuArray(single(W1));
+    % W2 = gpuArray(single(W2));
+    % X  = gpuArray(single(X));
+    % D  = gpuArray(single(D));
 
     % D是公文的预期热度，除以10会稍微降低训练准确性
     % 但是可以有效防止因为梯度爆炸而出现NaN的问题
