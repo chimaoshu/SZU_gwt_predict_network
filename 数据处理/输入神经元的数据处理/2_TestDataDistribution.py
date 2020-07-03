@@ -6,7 +6,7 @@
 import json
 
 # 读取数据
-with open('数据处理\\输入神经元的数据处理\\2_word_weights.json', 'r', encoding='utf-8') as f:
+with open('数据处理\\输入神经元的数据处理\\1_word_weights.json', 'r', encoding='utf-8') as f:
     _data = f.read()
     _data = json.loads(_data)
 
