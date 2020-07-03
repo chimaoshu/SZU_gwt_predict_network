@@ -45,30 +45,36 @@ end
 clear training_data init_weight file
 
 % 训练次数
-training_times = 5;
+training_times = 10;
 
 % 初始学习率
-init_alpha = 0.001;
+alpha = 0.0001;
 
 % 进行训练
-for epoch = 1:training_times  
+for epoch = 1:training_times
 
     % 用来存储损失loss，方便可视化分析训练情况
     cost_trend = [];
 
     % 如果电脑里面没有NVIDIA的CUDA或者MATLAB的parallel computing toolbox
     % 注释下面这行代码即可
-    % cost_trend = gpuArray(cost_trend);
-    
-    % 每次训练学习率减少，防止梯度爆炸
-    alpha = init_alpha * 0.5^(epoch-1);
+    cost_trend = gpuArray(cost_trend);
 
     % 训练
     [W1, W2, cost_trend] = ReNewWeights(W1, W2, X, D, cost_trend, alpha); 
     disp(['已经训练了', num2str(epoch) ,'次'])
 
-    % 画loss变化趋势图
-    plot(cost_trend)
-    hold on
-    
+    % 如果损失小于某个期望值，则结束学习
+    if (all (cost_trend < 1.5) && all(cost_trend > -1.5))
+        disp('训练完成')
+        break
+    end
+
+    % 每n次循环画一次图
+    if mod(epoch,1) == 0
+      % 画loss变化趋势图
+      plot(cost_trend)
+      hold on
+    end
+
 end

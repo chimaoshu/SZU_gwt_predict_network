@@ -7,14 +7,10 @@ function [W1, W2, cost_trend] = ReNewWeights(W1, W2, X, D, cost_trend, alpha)
     % 转化为GPU数组进行并行计算，并且转化为单精度以提高GPU计算的优先性
     % 如果电脑里面没有NVIDIA的CUDA或者MATLAB的parallel computing toolbox
     % 注释下面这四行代码即可
-    % W1 = gpuArray(single(W1));
-    % W2 = gpuArray(single(W2));
-    % X  = gpuArray(single(X));
-    % D  = gpuArray(single(D));
-
-    % D是公文的预期热度，除以10会稍微降低训练准确性
-    % 但是可以有效防止因为梯度爆炸而出现NaN的问题
-    D = D / 10;
+    W1 = gpuArray(single(W1));
+    W2 = gpuArray(single(W2));
+    X  = gpuArray(single(X));
+    D  = gpuArray(single(D));
     
     % 对每组数据进行一次训练
     for i = 1:training_data_lenth
@@ -26,16 +22,15 @@ function [W1, W2, cost_trend] = ReNewWeights(W1, W2, X, D, cost_trend, alpha)
         % 实践试了大量的激活函数组合，最后发现这里不适合使用激活函数，
         % 使用Sigmoid等激活函数会因为预计数值大而出现梯度消失
         % 使用ReLU很容易出现神经元死亡，使用Softmax、LeakyReLU的效果也不好
-        % 使用LeakyReLU就不如直接原样输出
+        % 使用LeakyReLU，在尽量保持数据原有梯度的情况下，解决了使用ReLU出现神经元死亡的问题
         v1 = W1 * x;
-        y1 = v1;
+        y1 = LeakyReLU(v1);
 
         
         % 正向传播 2-->3
-        % 使用LeakyReLU是在尽量保持原数据梯度的情况下，防止ReLU下神经元死亡
-        % 是大量实验后得出的结论
         v2 = W2 * y1;
-        y2 = LeakyReLU(v2);
+        y2 = v2;
+        %y2 = LeakyReLU(v2);
 
         % 获取预期值
         d = D(i,:);
@@ -44,7 +39,7 @@ function [W1, W2, cost_trend] = ReNewWeights(W1, W2, X, D, cost_trend, alpha)
         e2 = d - y2;
         delta2 = e2;
 
-        % 每500次训练就记录一次误差，便于分析训练状态
+        % 每500次训练就记录一次损失，便于分析训练状态
         if mod(i,500) == 0
             cost_trend(length(cost_trend)+1) = delta2;
         end

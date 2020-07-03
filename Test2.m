@@ -26,11 +26,11 @@ else
 
     % 正向传播 1-->2
     v1 = W1 * input_vector;
-    y1 = v1;
+    y1 = LeakyReLU(v1);
 
     % 正向传播 2-->3
     v2 = W2*y1;
-    y2 = LeakyReLU(v2) * 10;
+    y2 = ReLU(v2);
 
 end
 
