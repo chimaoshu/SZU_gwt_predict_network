@@ -4,8 +4,12 @@
 #cache
 __pycache__
 
+#排序
+排序
+
 
 Train copy.m
 ReNewWeights copy.m
 失败品
 Sort.py
+getPredictScore.m

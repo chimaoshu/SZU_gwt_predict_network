@@ -45,7 +45,7 @@ end
 clear training_data init_weight file
 
 % 训练次数
-training_times = 10;
+training_times = 3;
 
 % 初始学习率
 alpha = 0.0001;

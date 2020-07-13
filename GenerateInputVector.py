@@ -29,8 +29,8 @@ class getAPI():
             string.ascii_letters + string.digits, 10))
 
         # 腾讯云可以免费开通使用，但是有并发量限制  
-        app_id = '2131825293'
-        app_key = 'oV8RSUibqk37pcLg'
+        app_id = 'xxxxx'
+        app_key = 'xxxxx'
         params = {
             'app_id': app_id,
             'time_stamp': time_stamp,
